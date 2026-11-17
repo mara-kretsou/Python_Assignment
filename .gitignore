@@ -1,0 +1,7 @@
+.venv/
+__pychache__/
+.pytest_cache/
+*.pyc
+*.db
+main.html
+*.csv
