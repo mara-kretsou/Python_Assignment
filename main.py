@@ -49,23 +49,12 @@ print(result)
 
 ideal_data.to_sql("ideal_data", con=engine, if_exists="replace", index=False)
 ideal_result = pd.read_sql_query("SELECT COUNT(*) AS total_rows FROM ideal_data", con=engine)
-print(result)
+print(ideal_result)
 
 columns_result = pd.read_sql_query("PRAGMA table_info(ideal_data)", con=engine)
 print("Number of columns:",len(columns_result))
 
 print("X values match:",training_data["x"].equals(ideal_data["x"]))
-
-sse_results={}
-
-for ideal_name in ideal_data.columns[1:]:
-    difference = training_data["y4"] - ideal_data[ideal_name]
-    sse = (difference**2).sum()
-    sse_results[ideal_name] = sse
-    #print(ideal_name,sse)
-
-best_ideal = (min(sse_results, key=sse_results.get))
-#print(best_ideal)
 
 #Find the best ideal function for each training function using SSE
 best_matches = {}
@@ -84,14 +73,6 @@ for training_name in training_data.columns[1:]:
 
 print(best_matches)
 
-max_difference = (training_data["y1"] - ideal_data["y13"]).abs().max()
-print(max_difference)
-
-print(((training_data["y1"] - ideal_data["y13"])**2).sum())
-
-allowed_difference = max_difference * (2**0.5)
-print(allowed_difference)
-
 #Calculates the maximum allowed deviation for each selected ideal function
 allowed_differences = {}
 
@@ -102,35 +83,6 @@ for training_name in best_matches:
     allowed_differences[ideal_name] = allowed_difference
     print(training_name,ideal_name,allowed_difference)
 print(allowed_differences)
-
-test_data = pd.read_csv("test.csv")
-print((test_data).head())
-print(test_data.shape)
-
-first_test = test_data.iloc[0]
-print(first_test)
-
-test_x = first_test["x"]
-print(test_x)
-
-matching_ideal = ideal_data.loc[ideal_data["x"] == test_x, ["x","y13"]]
-print(matching_ideal)
-print(ideal_data.loc[ideal_data["x"] == test_x, "y13"])
-
-ideal_y = matching_ideal["y13"].iloc[0]
-print(ideal_y)
-
-test_y = first_test["y"]
-print(test_y)
-
-deviation = abs(test_y - ideal_y)
-print(deviation)
-print(deviation <= allowed_differences["y13"])
-
-for ideal_name in allowed_differences:
-    matching_value = ideal_data.loc[ideal_data["x"] == test_x, ideal_name].iloc[0]
-    deviation = abs(test_y - matching_value)
-    print(ideal_name,deviation <= allowed_differences[ideal_name])
     
 #Map test data to the selected ideal functions using the allowed deviation
 matched_tests = []
@@ -144,11 +96,7 @@ for test_number in range(100):
         matching_value = ideal_data.loc[ideal_data["x"] == test_x, ideal_name].iloc[0]
         deviation = abs(test_y - matching_value)
         if deviation <= allowed_differences[ideal_name]:
-            print(test_number,ideal_name,deviation)
             matched_tests.append([test_x,test_y,ideal_name,deviation])
-
-print(matched_tests[:3])
-print(len(matched_tests))
 
 #Organizes matched test points and remove duplicate mappings
 matches_table = pd.DataFrame(matched_tests, columns=["x","y","ideal_function","deviation"])
