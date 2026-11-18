@@ -6,6 +6,6 @@ def calculate_sse(training_values, ideal_values):
 
 def calculate_allowed_deviation(training_values,ideal_values):
      """Calculates the maximum allowed deviation between training and ideal values."""
-    max_difference = (training_values - ideal_values).abs().max()
-    allowed_deviation = max_difference * (2**0.5)
-    return allowed_deviation
+     max_difference = (training_values - ideal_values).abs().max()
+     allowed_deviation = max_difference * (2**0.5)
+     return allowed_deviation
