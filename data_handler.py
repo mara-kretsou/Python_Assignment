@@ -23,26 +23,7 @@ class DataHandler:
          print("CSV file not found!")
          raise
        return self.data
-    
-# handler = DataHandler("train.csv")
-# ideal_handler = DataHandler("ideal.csv")
-# test_handler = DataHandler("test.csv")
-
-# training_table = handler.load_data()
-# print(training_table.head())
-# handler.show_messages()
-# ideal_handler.load_data()
-# test_handler.load_data()
-
-
-# print(handler.filename)
-# print(handler.data.head())
-# print(ideal_handler.data.head())
-# print(test_handler.data.head())
-
-# test_error = DataHandler("missing.csv")
-# test_error.load_data()
-
+   
 
 class TrainingDataHandler(DataHandler):
    """Handles validation of training data."""

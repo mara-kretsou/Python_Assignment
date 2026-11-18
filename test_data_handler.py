@@ -32,7 +32,6 @@ def test_missing_file():
         handler.load_data()
 
 
-
 def test_validate_training_columns():
     """Tests validation of the required training columns."""
     handler = TrainingDataHandler("train.csv")
