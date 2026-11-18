@@ -10,6 +10,7 @@ from sqlalchemy import create_engine
 from bokeh.plotting import figure,show
 from bokeh.layouts import column
 from data_handler import DataHandler,TrainingDataHandler
+from calculations import calculate_allowed_deviation
 
 
 #Initialize handles for the 3 CSV files
@@ -78,8 +79,7 @@ allowed_differences = {}
 
 for training_name in best_matches:
     ideal_name = best_matches[training_name]
-    max_difference = (training_data[training_name] - ideal_data[ideal_name]).abs().max()
-    allowed_difference = max_difference * (2**0.5)
+    allowed_difference = calculate_allowed_deviation(training_data[training_name],ideal_data[ideal_name])
     allowed_differences[ideal_name] = allowed_difference
     print(training_name,ideal_name,allowed_difference)
 print(allowed_differences)
