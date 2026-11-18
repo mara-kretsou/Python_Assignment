@@ -39,11 +39,11 @@ cd Python_Assignment
 
 3. Create and activate a virtual environment using the command:
 
-python -m venv. venv
+python -m venv .venv
 
 Activate the virtual environment:
 
-.\.venv\Scripts\Activate.ps1
+`.\.venv\Scripts\Activate.ps1`
 
 4. Run this to install the necessary libraries:
 
