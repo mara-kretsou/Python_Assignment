@@ -1,5 +1,5 @@
 import pandas as pd
-from calculations import calculate_sse,calculate_allowed_deviation
+from calculations import calculate_sse,calculate_allowed_deviation,find_best_ideal
 
 
 
@@ -21,3 +21,11 @@ def test_calculate_allowed_deviation():
 
     expected = 2 * (2**0.5)
     assert abs(result - expected) < 0.000001
+
+
+def test_find_best_ideal():
+   training_values = pd.Series([1, 2, 3])
+   ideal_data = pd.DataFrame({"x":[0, 1, 2], "y1":[1, 2, 3], "y2":[4, 5, 6]}) 
+   result = find_best_ideal(training_values,ideal_data)
+   assert result == "y1"
+   
