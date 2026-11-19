@@ -10,7 +10,7 @@ from sqlalchemy import create_engine
 from bokeh.plotting import figure,show
 from bokeh.layouts import column
 from data_handler import DataHandler,TrainingDataHandler
-from calculations import calculate_allowed_deviation
+from calculations import calculate_allowed_deviation, find_best_ideal
 
 
 #Initialize handles for the 3 CSV files
@@ -61,15 +61,7 @@ print("X values match:",training_data["x"].equals(ideal_data["x"]))
 best_matches = {}
 
 for training_name in training_data.columns[1:]:
-    sse_results = {}
-
-
-    for ideal_name in ideal_data.columns[1:]:
-       sse = ((training_data[training_name] - ideal_data[ideal_name])**2).sum()
-       sse_results[ideal_name] = sse
-       #print(training_name,ideal_name,sse)
-
-    best_ideal = (min(sse_results, key=sse_results.get))
+    best_ideal = find_best_ideal(training_data[training_name], ideal_data)
     best_matches[training_name] = best_ideal
 
 print(best_matches)
