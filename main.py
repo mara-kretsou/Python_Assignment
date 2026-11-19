@@ -119,6 +119,9 @@ saved_matches = pd.read_sql("SELECT * FROM test_mapping", engine)
 print(len(saved_matches))
 print(saved_matches.head())
 
+test_comparison = test_data.merge(final_matches[["x","y"]], on=["x","y"], how="left", indicator=True)
+unmatched_tests = test_comparison[test_comparison["_merge"] == "left_only"]
+
 #Visualize training data, selected ideal functions, and matched test points using Bokeh 
 plot = figure(title="Training y1 and Ideal y13")
 plot.xaxis.axis_label="x"
@@ -127,9 +130,6 @@ plot.line(training_data["x"], training_data["y1"], legend_label="Training y1")
 plot.line(ideal_data["x"],ideal_data["y13"], color="red", legend_label="Ideal y13")
 y13_tests = final_matches[final_matches["ideal_function"] == "y13"] 
 plot.scatter(y13_tests["x"], y13_tests["y"], legend_label="Matched Test Points")
-#show(plot)
-
-
 
 plot2 = figure(title="Training y2 and Ideal y24")
 plot2.xaxis.axis_label="x"
@@ -138,8 +138,6 @@ plot2.line(training_data["x"], training_data["y2"], legend_label="Training y2")
 plot2.line(ideal_data["x"], ideal_data["y24"], color="red",line_dash="dashed",legend_label="Ideal y24")
 y24_tests = final_matches[final_matches["ideal_function"] == "y24"]
 plot2.scatter(y24_tests["x"],y24_tests["y"], legend_label="Matched Test Points")
-#show(plot2)
-
 
 plot3 = figure(title="Training y3 and Ideal y36")
 plot3.xaxis.axis_label="x"
@@ -148,8 +146,6 @@ plot3.line(training_data["x"], training_data["y3"], legend_label="Training y3")
 plot3.line(ideal_data["x"], ideal_data["y36"], color="red",line_dash="dashed",legend_label="Ideal y36")
 y36_tests = final_matches[final_matches["ideal_function"] == "y36"]
 plot3.scatter(y36_tests["x"],y36_tests["y"], legend_label="Matched Test Points")
-#show(plot3)
-
 
 plot4 = figure(title="Training y4 and Ideal y40")
 plot4.xaxis.axis_label="x"
@@ -158,7 +154,16 @@ plot4.line(training_data["x"], training_data["y4"], legend_label="Training y4")
 plot4.line(ideal_data["x"], ideal_data["y40"], color="red",line_dash="dashed",legend_label="Ideal y40")
 y40_tests = final_matches[final_matches["ideal_function"] == "y40"]
 plot4.scatter(y40_tests["x"],y40_tests["y"], legend_label="Matched Test Points")
-#show(plot4)
 
-all_plots = column(plot,plot2,plot3,plot4)
+deviation_plot = figure(title="Deviation of Matched Points")
+deviation_plot.xaxis.axis_label= "Test x-value"
+deviation_plot.yaxis.axis_label= "Absolute Deviation"
+deviation_plot.scatter(final_matches["x"], final_matches["deviation"])
+
+unmatched_plot = figure(title="Unmatched Test Points")
+unmatched_plot.xaxis.axis_label= "Test x-value"
+unmatched_plot.yaxis.axis_label= "Test y-value"
+unmatched_plot.scatter(unmatched_tests["x"], unmatched_tests["y"])
+
+all_plots = column(plot,plot2,plot3,plot4,deviation_plot,unmatched_plot)
 show(all_plots)
