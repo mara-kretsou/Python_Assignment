@@ -1,5 +1,5 @@
 import pandas as pd
-from calculations import calculate_sse,calculate_allowed_deviation,find_best_ideal, is_mapping_allowed
+from calculations import calculate_sse,calculate_allowed_deviation,find_best_ideal, is_mapping_allowed, select_closest_matches
 
 
 
@@ -36,3 +36,10 @@ def test_mapping_allowed():
     assert is_mapping_allowed(1, 2) == True
     assert is_mapping_allowed(3, 2) == False
     assert is_mapping_allowed(2, 2) == True
+
+def test_select_closest_matches():
+    """Tests that the mapping with the smallest deviation is selected."""
+    matches_table = pd.DataFrame({"x":[1,1], "y": [5,5], "ideal_function": ["y1", "y2"], "deviation": [0.3,0.1]})
+    result = select_closest_matches(matches_table)
+    assert result.iloc[0]["ideal_function"] == "y2"
+    assert len(result) == 1
