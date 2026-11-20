@@ -23,3 +23,9 @@ def find_best_ideal(training_values, ideal_data):
 def is_mapping_allowed(deviation,allowed_difference):
      """Checks if a test point's deviation is within the allowed limit. """
      return deviation <= allowed_difference
+
+def select_closest_matches(matches_table):
+     """Selects the closest ideal function for each test point."""
+     sorted_matches = matches_table.sort_values("deviation")
+     final_matches = sorted_matches.drop_duplicates(subset= ["x","y"], keep="first")
+     return final_matches

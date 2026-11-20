@@ -10,7 +10,7 @@ from sqlalchemy import create_engine
 from bokeh.plotting import figure,show
 from bokeh.layouts import column
 from data_handler import DataHandler,TrainingDataHandler
-from calculations import calculate_allowed_deviation, find_best_ideal, is_mapping_allowed
+from calculations import calculate_allowed_deviation, find_best_ideal, is_mapping_allowed, select_closest_matches
 
 
 #Initialize handles for the 3 CSV files
@@ -98,10 +98,7 @@ print(matches_table.duplicated(subset=["x","y"]).sum())
 duplicates = matches_table[matches_table.duplicated(subset=["x","y"],keep=False)]
 print(duplicates)
 
-sorted_matches = matches_table.sort_values("deviation")
-print(sorted_matches.head())
-
-final_matches = sorted_matches.drop_duplicates(subset=["x","y"],keep="first")
+final_matches = select_closest_matches(matches_table)
 print(len(final_matches))
 
 #Save the final test mappings and deviations in the SQLlite database 
