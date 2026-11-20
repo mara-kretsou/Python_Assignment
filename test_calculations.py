@@ -1,5 +1,5 @@
 import pandas as pd
-from calculations import calculate_sse,calculate_allowed_deviation,find_best_ideal
+from calculations import calculate_sse,calculate_allowed_deviation,find_best_ideal, is_mapping_allowed
 
 
 
@@ -29,3 +29,7 @@ def test_find_best_ideal():
    result = find_best_ideal(training_values,ideal_data)
    assert result == "y1"
    
+def test_mapping_allowed():
+    assert is_mapping_allowed(1, 2) == True
+    assert is_mapping_allowed(3, 2) == False
+    assert is_mapping_allowed(2, 2) == True

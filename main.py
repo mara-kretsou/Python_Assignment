@@ -10,7 +10,7 @@ from sqlalchemy import create_engine
 from bokeh.plotting import figure,show
 from bokeh.layouts import column
 from data_handler import DataHandler,TrainingDataHandler
-from calculations import calculate_allowed_deviation, find_best_ideal
+from calculations import calculate_allowed_deviation, find_best_ideal, is_mapping_allowed
 
 
 #Initialize handles for the 3 CSV files
@@ -87,7 +87,7 @@ for test_number in range(100):
     for ideal_name in allowed_differences:
         matching_value = ideal_data.loc[ideal_data["x"] == test_x, ideal_name].iloc[0]
         deviation = abs(test_y - matching_value)
-        if deviation <= allowed_differences[ideal_name]:
+        if is_mapping_allowed(deviation, allowed_differences[ideal_name]):
             matched_tests.append([test_x,test_y,ideal_name,deviation])
 
 #Organizes matched test points and remove duplicate mappings
