@@ -79,7 +79,7 @@ print(allowed_differences)
 #Map test data to the selected ideal functions using the allowed deviation
 matched_tests = []
 
-for test_number in range(100):
+for test_number in range(len(test_data)):
     test_point = test_data.iloc[test_number]
     test_x = test_point["x"]
     test_y = test_point["y"]

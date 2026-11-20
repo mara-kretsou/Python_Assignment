@@ -14,6 +14,7 @@ def test_calculate_sse():
 
 
 def test_calculate_allowed_deviation():
+    """Tests the calculation of the maximum allowed deviation."""
     training_values = pd.Series([1, 4, 7])
     ideal_values = pd.Series([2, 4, 5])
 
@@ -24,12 +25,14 @@ def test_calculate_allowed_deviation():
 
 
 def test_find_best_ideal():
+   """Tests the selection of the ideal function with the lowest SSE."""
    training_values = pd.Series([1, 2, 3])
    ideal_data = pd.DataFrame({"x":[0, 1, 2], "y1":[1, 2, 3], "y2":[4, 5, 6]}) 
    result = find_best_ideal(training_values,ideal_data)
    assert result == "y1"
    
 def test_mapping_allowed():
+    """Tests whether test point mappinng is accepted or rejected correctly."""
     assert is_mapping_allowed(1, 2) == True
     assert is_mapping_allowed(3, 2) == False
     assert is_mapping_allowed(2, 2) == True

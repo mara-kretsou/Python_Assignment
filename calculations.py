@@ -21,4 +21,5 @@ def find_best_ideal(training_values, ideal_data):
      return best_ideal
 
 def is_mapping_allowed(deviation,allowed_difference):
+     """Checks if a test point's deviation is within the allowed limit. """
      return deviation <= allowed_difference
