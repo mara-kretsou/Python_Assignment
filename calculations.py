@@ -20,3 +20,5 @@ def find_best_ideal(training_values, ideal_data):
      best_ideal = min(sse_results, key=sse_results.get)
      return best_ideal
 
+def is_mapping_allowed(deviation,allowed_difference):
+     return deviation <= allowed_difference
