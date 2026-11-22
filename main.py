@@ -11,6 +11,7 @@ from bokeh.plotting import figure,show
 from bokeh.layouts import column
 from data_handler import DataHandler,TrainingDataHandler
 from calculations import calculate_allowed_deviation, find_best_ideal, is_mapping_allowed, select_closest_matches
+from point_mapper import PointMapper
 
 
 #Initialize handles for the 3 CSV files
@@ -75,30 +76,10 @@ for training_name in best_matches:
     allowed_differences[ideal_name] = allowed_difference
     print(training_name,ideal_name,allowed_difference)
 print(allowed_differences)
+mapper = PointMapper(ideal_data)
+new_matches = mapper.map_points(test_data, allowed_differences)
     
-#Map test data to the selected ideal functions using the allowed deviation
-matched_tests = []
-
-for test_number in range(len(test_data)):
-    test_point = test_data.iloc[test_number]
-    test_x = test_point["x"]
-    test_y = test_point["y"]
-
-    for ideal_name in allowed_differences:
-        matching_value = ideal_data.loc[ideal_data["x"] == test_x, ideal_name].iloc[0]
-        deviation = abs(test_y - matching_value)
-        if is_mapping_allowed(deviation, allowed_differences[ideal_name]):
-            matched_tests.append([test_x,test_y,ideal_name,deviation])
-
-#Organizes matched test points and remove duplicate mappings
-matches_table = pd.DataFrame(matched_tests, columns=["x","y","ideal_function","deviation"])
-print(matches_table.head())
-print(matches_table.duplicated(subset=["x","y"]).sum())
-
-duplicates = matches_table[matches_table.duplicated(subset=["x","y"],keep=False)]
-print(duplicates)
-
-final_matches = select_closest_matches(matches_table)
+final_matches = new_matches
 print(len(final_matches))
 
 #Save the final test mappings and deviations in the SQLlite database 
