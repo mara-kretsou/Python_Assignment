@@ -1,7 +1,7 @@
+"""Unit tests for function calculations and matching."""
+
 import pandas as pd
 from calculations import calculate_sse,calculate_allowed_deviation,find_best_ideal, is_mapping_allowed, select_closest_matches
-
-
 
 def test_calculate_sse():
     """Tests the calculation of the sum of squared errors."""

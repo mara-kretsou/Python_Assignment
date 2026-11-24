@@ -1,3 +1,5 @@
+"""Unit tests for CSV loading and data validation."""
+
 from data_handler import DataHandler, TrainingDataHandler, MissingTrainingColumnError
 import pytest
 
@@ -49,4 +51,9 @@ def test_missing_training_column():
         handler.validate_columns()
 
 
-    
+def test_validation_without_loading_data():
+    """Checks validation fails when data has not been loaded."""
+    handler = TrainingDataHandler("example.csv")
+
+    with pytest.raises(ValueError, match = "Load the CSV"):
+        handler.validate_columns()
