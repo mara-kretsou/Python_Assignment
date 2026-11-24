@@ -4,11 +4,12 @@ from sqlalchemy import create_engine, MetaData, Table, Column, Float, String, In
 from sqlalchemy.exc import SQLAlchemyError
 
 class DatabaseManager:
+    """Manage SQLite tables and database connections using SQLAlchemy."""
     def __init__(self):
         """Initialize the SQLite engine and table metadata."""
         self.engine = create_engine("sqlite:///assignment.db")
         self.metadata = MetaData()
-        self.test_mapping_table = Table("test_mapping", self.metadata, Column("x", Float), Column("y", Float), Column("deviation", Float), Column("ideal_function", String), Column("test_row_id", Integer, primary_key=True))
+        self.test_mapping_table = Table("test_mapping", self.metadata, Column("x", Float), Column("y", Float), Column("deviation", Float), Column("ideal_function", String))
 
 
     def reset_mapping_table(self):

@@ -2,7 +2,7 @@ import pandas as pd
 from point_mapper import PointMapper
 import pytest
 
-def test_mapps_point_within_tollerance():
+def test_maps_point_within_tolerance():
     """Check that a point within the tolerance is mapped."""
     ideal_data = pd.DataFrame({"x": [1, 2], "y1": [10, 20]})
     test_data = pd.DataFrame({"x": [1], "y": [10.2]})
@@ -49,6 +49,7 @@ def test_keeps_identical_test_rows():
     assert len(result) == 2
 
 def test_unmatched_duplicate_coordinates():
+    """Check that unmatched duplicate coordinates are preserved."""
     test_data = pd.DataFrame({"x": [2.0, 2.0, 3.0], "y": [10.0, 10.0, 30.0]})
 
     matches = pd.DataFrame({"test_row_id": [0]})
@@ -60,3 +61,13 @@ def test_unmatched_duplicate_coordinates():
     assert result.index.tolist() == [1, 2]
     assert result.iloc[0]["x"] == 2.0
     assert result.iloc[0]["y"] == 10.0
+
+def test_nearly_equal_x():
+    """Check that nearly equal floating point X values match."""
+    ideal = pd.DataFrame({"x":[0.3], "y1": [10]})
+    test = pd.DataFrame({"x": [0.1 + 0.2], "y": [10]})
+
+    mapper = PointMapper(ideal)
+    result = mapper.map_points(test, {"y1": 1.0})
+
+    assert len(result) == 1

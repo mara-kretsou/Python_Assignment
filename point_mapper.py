@@ -8,9 +8,10 @@ import numpy as np
 class PointMapper:
     """Maps test points to the selected ideal functions."""
     def __init__(self,ideal_data):
+        """Initialize the mapper with the ideal function data."""
         self.ideal_data = ideal_data
     def map_points(self, test_data, allowed_differences):
-        """Match test points to ideal functions withnin allowed deviations."""
+        """Match test points to ideal functions within allowed deviations."""
         matched_tests = []
         for test_number in range(len(test_data)):
             test_point = test_data.iloc[test_number]
