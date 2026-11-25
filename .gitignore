@@ -1,6 +1,7 @@
 .venv/
-__pychache__/
+__pycache__/
 .pytest_cache/
 *.pyc
 *.db
 main.html
+assignment_plots.html

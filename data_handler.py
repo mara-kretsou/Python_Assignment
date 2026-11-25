@@ -1,39 +1,57 @@
+"""Load CSV files and validate training data."""
+
 import pandas as pd
 
 
 class MissingTrainingColumnError(ValueError):
-   """Raised when a required training column is missing."""
+    """Raised when a required training column is missing."""
 
 
 class DataHandler:
     """Handles loading and managing CSV data."""
-    def __init__(self, filename):
-     """Initializes the data handler with a CSV filename."""
-     self.filename = filename
-    def show_messages(self):
-        """Displays a message confirming that the data handler is ready."""
-        print("DataHandler is ready")
 
+    def __init__(self, filename):
+        """Initializes the data handler with a CSV filename."""
+        self.filename = filename
+        self.data = None
 
     def load_data(self):
-       """"Read the CSV file and return its data."""
-       try:  
-        self.data = pd.read_csv(self.filename)
-       except FileNotFoundError:
-         print("CSV file not found!")
-         raise
-       return self.data
-   
+        """Read the CSV file and return its data."""
+        try:
+            self.data = pd.read_csv(self.filename)
+        except FileNotFoundError as error:
+            raise FileNotFoundError(f"CSV file not found: {self.filename}") from error
+        return self.data
+
 
 class TrainingDataHandler(DataHandler):
-   """Handles validation of training data."""
-   def validate_columns(self):
-      """Checks that all required training columns exist."""
-      required_columns = ["x", "y1", "y2", "y3", "y4"]
+    """Handles validation of training data."""
 
-      for column in required_columns:
-         
-         if column not in self.data.columns:
-            print("Missing column:", column)
-            raise MissingTrainingColumnError("A required column is missing!")
+    def validate_columns(self):
+        """Checks that all required training columns exist."""
+        if self.data is None:
+            raise ValueError("Load the CSV before validating columns.")
+        required_columns = ["x", "y1", "y2", "y3", "y4"]
 
+        for column in required_columns:
+
+            if column not in self.data.columns:
+                print("Missing column:", column)
+                raise MissingTrainingColumnError("A required column is missing!")
+
+
+class TestDataHandler(DataHandler):
+    """Load and validate test data."""
+
+    __test__ = False
+
+    def validate_columns(self):
+        """Check that the test data contains x and y columns."""
+        if self.data is None:
+            raise ValueError("Load the CSV before validating columns.")
+
+        required_columns = ["x", "y"]
+
+        for column in required_columns:
+            if column not in self.data.columns:
+                raise ValueError(f"Missing test column: {column}")
