@@ -22,8 +22,6 @@ This project applies ideal function selection and test data mapping using Python
 | test_database_manager.py | Tests database operations                                                                          |
 | test_point_mapper.py     | Tests point mapping                                                                                |
 | test_visualizer.py       | Tests Bokeh visualization                                                                          |
-| test_x_validation.py     | Tests X-value validation                                                                           |
-| test_missing_x.py        | Tests missing X-value handling                                                                     |
 | requirements.txt         | Lists required Python packages                                                                     |
 
 ## Technologies Used

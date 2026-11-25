@@ -6,7 +6,6 @@ from sqlalchemy.exc import SQLAlchemyError
 from database_manager import DatabaseManager
 from sqlalchemy import create_engine, inspect
 import pandas as pd
-from sqlalchemy.exc import IntegrityError
 
 
 def test_database_connection_failure():

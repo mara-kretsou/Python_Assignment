@@ -16,7 +16,7 @@ class DataHandler:
         self.data = None
 
     def load_data(self):
-        """ "Read the CSV file and return its data."""
+        """Read the CSV file and return its data."""
         try:
             self.data = pd.read_csv(self.filename)
         except FileNotFoundError as error:

@@ -88,20 +88,20 @@ def create_function_plots(
         plots.append(plot)
 
     deviation_plot = figure(title="Deviation of Matched Points")
-    deviation_plot.xaxis.axis_label= "Test x-value"
-    deviation_plot.yaxis.axis_label= "Absolute Deviation"
+    deviation_plot.xaxis.axis_label = "Test x-value"
+    deviation_plot.yaxis.axis_label = "Absolute Deviation"
 
     for i, (ideal_name, points) in enumerate(final_matches.groupby("ideal_function")):
         deviation_plot.scatter(
             points["x"],
             points["deviation"],
-            color=Category10[10][i%10],
+            color=Category10[10][i % 10],
             legend_label=ideal_name,
         )
-    
+
     unmatched_plot = figure(title="Unmatched Test Points")
-    unmatched_plot.xaxis.axis_label= "Test x-value"
-    unmatched_plot.yaxis.axis_label= "Test y-value"
+    unmatched_plot.xaxis.axis_label = "Test x-value"
+    unmatched_plot.yaxis.axis_label = "Test y-value"
     unmatched_plot.scatter(unmatched_tests["x"], unmatched_tests["y"])
 
     plots.extend([deviation_plot, unmatched_plot])
